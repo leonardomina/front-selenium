@@ -35,7 +35,7 @@ jobs:
         run: mvn test
 
       - name: 📊 Publicar Relatório de Testes
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: cucumber-reports
           path: target/cucumber-reports
