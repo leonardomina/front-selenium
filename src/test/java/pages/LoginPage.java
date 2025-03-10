@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
+import static org.bouncycastle.oer.its.template.ieee1609dot2.basetypes.Ieee1609Dot2BaseTypes.Duration;
+
 public class LoginPage {
 
     private WebDriver driver;
@@ -20,10 +22,15 @@ public class LoginPage {
     By loginButton = By.id("btnLogin");
     By okButton = By.cssSelector("body > div.swal2-container.swal2-center.swal2-backdrop-show > div > div.swal2-actions > button.swal2-confirm.swal2-styled");
 
-    public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Espera até 10 segundos
-    }
+        private static final String URL = "https://automationpratice.com.br/login"; // URL agora dentro do PageObject
+
+        public LoginPage(WebDriver driver) {
+            this.driver = driver;
+        }
+
+        public void acessarPagina() {
+            driver.get(URL);
+        }
 
     /**
      * Insere o nome de usuário no campo apropriado.

@@ -15,9 +15,11 @@ public class CheckoutPage {
     private WebDriverWait wait;
 
     public CheckoutPage(WebDriver driver) {
+        if (driver == null) {
+            throw new IllegalArgumentException("O WebDriver não pode ser nulo");
+        }
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(3)); // Aguarda até 3s
-
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(3));
     }
 
     // Localizadores

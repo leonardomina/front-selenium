@@ -5,13 +5,22 @@ import io.cucumber.java.en.*;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import pages.CheckoutPage;
-import utils.DriverFactory;
+import utils.Hooks;
 
 import java.util.Map;
 
+
 public class CheckoutSteps {
-    WebDriver driver = DriverFactory.getDriver(); // Obtém uma instância do WebDriver
-    CheckoutPage checkoutPage = new CheckoutPage(driver);
+    private WebDriver driver;
+    private CheckoutPage checkoutPage;
+
+    public CheckoutSteps() {
+        this.driver = Hooks.getDriver(); // Usa o WebDriver centralizado
+        if (this.driver == null) {
+            throw new IllegalStateException("O WebDriver não foi inicializado corretamente");
+        }
+        this.checkoutPage = new CheckoutPage(driver);
+    }
 
     @Given("que o usuário acessa a página Shop")
     public void acessarPaginaShop() throws InterruptedException {

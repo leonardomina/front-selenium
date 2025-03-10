@@ -5,11 +5,12 @@ import org.junit.runner.RunWith;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 import net.masterthought.cucumber.ReportBuilder;
-import utils.DriverFactory;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.List;
+
+
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
@@ -24,6 +25,7 @@ import java.util.List;
 )
 public class TestRunner {
 
+
         @AfterClass
         public static void gerarRelatorio() {
                 File reportOutputDirectory = new File("target/cucumber-reports");
@@ -34,11 +36,5 @@ public class TestRunner {
                 ));
 
                 reportBuilder.generateReports();
-        }
-        @AfterClass
-        public static void tearDownAfterAllTests() {
-                if (DriverFactory.getDriver() != null) {
-                        DriverFactory.quitDriver(); // Fecha o navegador depois de todos os testes
-                }
         }
 }
