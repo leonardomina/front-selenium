@@ -2,16 +2,22 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 /**
  * Representa a página inicial (Home) da aplicação, que é exibida após o login.
  */
 public class HomePage {
 
-    WebDriver driver;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     // Localizador de um elemento característico da HomePage (ex: logo, banner)
-    By homeLogo = By.id("swal2-title");
+    private final By homeLogo = By.id("swal2-title");
 
     /**
      * Construtor que inicializa a página com o WebDriver.
@@ -19,6 +25,7 @@ public class HomePage {
      */
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10)); // Timeout de 10s
     }
 
     /**
@@ -26,6 +33,11 @@ public class HomePage {
      * @return true se o elemento característico da HomePage estiver visível, false caso contrário.
      */
     public boolean isAt() {
-        return driver.findElement(homeLogo).isDisplayed();
+        try {
+            WebElement logo = wait.until(ExpectedConditions.visibilityOfElementLocated(homeLogo));
+            return logo.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
