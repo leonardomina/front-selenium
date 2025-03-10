@@ -28,11 +28,14 @@ jobs:
       - name: ⚙️ Configurar o ChromeDriver
         uses: browser-actions/setup-chrome@v1
 
+      - name: ⏳ Aguardar a inicialização do Chrome (evita erro de sessão)
+        run: sleep 5
+
       - name: 🔧 Configurar dependências do projeto
         run: mvn clean install -DskipTests
 
       - name: 🧪 Executar testes E2E com Cucumber
-        run: mvn test
+        run: mvn test -Dchrome.options="--headless"
 
       - name: 📊 Publicar Relatório de Testes
         uses: actions/upload-artifact@v4
