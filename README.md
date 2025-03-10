@@ -10,7 +10,7 @@ Antes de começar, certifique-se de ter os seguintes programas instalados:
 ### 🖥️ **Softwares necessários**
 | Programa         | Versão Requerida       | Link de Download |
 |-----------------|----------------------|------------------|
-| **Java JDK**    | 11+                   | [Baixar JDK](https://adoptium.net/) |
+| **Java JDK**    | 15+                   | [Baixar JDK](https://adoptium.net/) |
 | **IntelliJ IDEA** | Última versão (Community ou Ultimate) | [Baixar IntelliJ IDEA](https://www.jetbrains.com/idea/download/) |
 | **Maven**       | 3.8+                   | [Baixar Maven](https://maven.apache.org/download.cgi) |
 | **ChromeDriver** | Versão compatível com o Chrome | [Baixar ChromeDriver](https://chromedriver.chromium.org/downloads) |
