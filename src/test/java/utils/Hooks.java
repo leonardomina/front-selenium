@@ -1,35 +1,27 @@
-package utils;
+package hooks;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import io.cucumber.java.After;
 import io.cucumber.java.Before;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import io.cucumber.java.After;
+import pages.LoginPage;
+import utils.DriverFactory;
 
 public class Hooks {
-    private static WebDriver driver;
+    private WebDriver driver;
+    private LoginPage loginPage;
 
     @Before
-    public void setUp() {
-        if (driver == null) { // Evita abrir múltiplas instâncias do navegador
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-            driver.manage().window().maximize();
-        }
-    }
-
-    public static WebDriver getDriver() {
-        if (driver == null) {
-            throw new IllegalStateException("O WebDriver não foi inicializado corretamente");
-        }
-        return driver;
+    public void setup() {
+        driver = DriverFactory.getDriver();
+        loginPage = new LoginPage(driver);
+        loginPage.acessarPaginaDeLogin();
+        loginPage.preencherCredenciais("teste1@teste1.com", "123456789");
+        loginPage.clicarBotaoLogin();
+        loginPage.clickOkButton();
     }
 
     @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-            driver = null; // Reseta para evitar manter sessões abertas
-        }
+    public void teardown() {
+        DriverFactory.quitDriver(); // Fecha o navegador ao final
     }
 }
