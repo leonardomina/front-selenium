@@ -18,24 +18,29 @@ jobs:
       - name: 🚀 Checkout do código
         uses: actions/checkout@v3
 
-      - name: ☕ Instalar o Java 17
+      - name: ☕ Configurar Java 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
           cache: 'maven'
 
-      - name: ⚙️ Configurar o ChromeDriver
+      - name: 🔍 Verificar versão do Java e Maven
+        run: |
+          java -version
+          mvn -version
+
+      - name: ⚙️ Instalar Chrome e ChromeDriver
         uses: browser-actions/setup-chrome@v1
 
       - name: ⏳ Aguardar a inicialização do Chrome (evita erro de sessão)
         run: sleep 5
 
-      - name: 🔧 Configurar dependências do projeto
+      - name: 🔧 Instalar dependências do projeto
         run: mvn clean install -DskipTests
 
-      - name: 🧪 Executar testes E2E com Cucumber
-        run: mvn test -Dchrome.options="--headless"
+      - name: 🏁 Executar testes E2E com Cucumber
+        run: mvn test -Dtest=runners.TestRunner -Dchrome.options="--headless"
 
       - name: 📊 Publicar Relatório de Testes
         uses: actions/upload-artifact@v4
@@ -45,8 +50,8 @@ jobs:
 
       - name: ✅ Finalizar pipeline com sucesso
         if: success()
-        run: echo "Testes E2E concluídos com sucesso!"
+        run: echo "🎉 Testes E2E concluídos com sucesso!"
 
       - name: ❌ Notificar falha no pipeline
         if: failure()
-        run: echo "Os testes falharam. Verifique os relatórios."
+        run: echo "❌ Os testes falharam. Verifique os relatórios."
