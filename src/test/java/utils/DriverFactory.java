@@ -14,16 +14,15 @@ public class DriverFactory {
             WebDriverManager.chromedriver().clearResolutionCache().setup();
 
             ChromeOptions options = new ChromeOptions();
-options.addArguments("--remote-allow-origins=*");
-options.addArguments("--disable-dev-shm-usage");
-options.addArguments("--no-sandbox");
-options.addArguments("--disable-gpu");
-options.addArguments("--disable-extensions");
+            options.addArguments("--remote-allow-origins=*");
+            options.addArguments("--disable-dev-shm-usage");  // Reduz problemas em containers
+            options.addArguments("--no-sandbox");  // Necessário para CI/CD
+            options.addArguments("--disable-gpu");
+            options.addArguments("--disable-extensions");
+            options.addArguments("--headless");  // Executa sem abrir a interface gráfica
+            options.addArguments("--user-data-dir=/tmp/chrome-user-data");  // Diretório único para evitar conflitos
 
-// Adiciona um diretório único para cada sessão
-options.addArguments("--user-data-dir=/tmp/chrome-profile-" + System.currentTimeMillis());
-
-WebDriver driver = new ChromeDriver(options);
+            WebDriver driver = new ChromeDriver(options);
 
             driver.manage().window().maximize();
             driverThreadLocal.set(driver);

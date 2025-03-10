@@ -39,7 +39,10 @@ jobs:
       - name: 🔧 Instalar dependências do projeto
         run: mvn clean install -DskipTests
 
-      - name: 🏁 Executar testes E2E com Cucumber
+      - name: 🗑️ Limpar cache do WebDriverManager
+        run: rm -rf ~/.cache/selenium
+
+      - name: 🧪 Executar testes E2E com Cucumber
         run: mvn test -Dtest=runners.TestRunner -Dchrome.options="--headless"
 
       - name: 📊 Publicar Relatório de Testes
