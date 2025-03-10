@@ -5,59 +5,51 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.time.Duration;
 
-import static org.bouncycastle.oer.its.template.ieee1609dot2.basetypes.Ieee1609Dot2BaseTypes.Duration;
-
 public class LoginPage {
-
     private WebDriver driver;
     private WebDriverWait wait;
 
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
 
-    // Locators
-    By usernameField = By.id("user");
-    By passwordField = By.id("password");
-    By loginButton = By.id("btnLogin");
-    By okButton = By.cssSelector("body > div.swal2-container.swal2-center.swal2-backdrop-show > div > div.swal2-actions > button.swal2-confirm.swal2-styled");
+    private By inputEmail = By.id("user");
+    private By inputPassword = By.id("password");
+    private By btnLogin = By.id("btnLogin");
+    private By okButton = By.xpath("//button[text()='OK']");
+    private By userProfileIcon = By.id("userLogged");
 
-        private static final String URL = "https://automationpratice.com.br/login"; // URL agora dentro do PageObject
+    public void acessarPaginaDeLogin() {
+        driver.get("https://automationpratice.com.br/login");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(inputEmail)); // Espera o campo de e-mail aparecer
+    }
 
-        public LoginPage(WebDriver driver) {
-            this.driver = driver;
+    public void preencherCredenciais(String email, String senha) {
+        WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(inputEmail));
+        emailField.clear();
+        emailField.sendKeys(email);
+
+        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(inputPassword));
+        passwordField.clear();
+        passwordField.sendKeys(senha);
+    }
+
+    public void clicarBotaoLogin() {
+        wait.until(ExpectedConditions.elementToBeClickable(btnLogin)).click();
+    }
+
+    public void clickOkButton() {
+        wait.until(ExpectedConditions.elementToBeClickable(okButton)).click();
+    }
+
+    public boolean verificarUsuarioLogado() {
+        try {
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(userProfileIcon)).isDisplayed();
+        } catch (Exception e) {
+            return false;
         }
-
-        public void acessarPagina() {
-            driver.get(URL);
-        }
-
-    /**
-     * Insere o nome de usuário no campo apropriado.
-     * @param username valor do nome de usuário
-     */
-
-    public void enterUsername(String username) {
-        WebElement userField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("user")));
-        userField.sendKeys(username);
-    }
-
-
-    /**
-     * Insere a senha no campo apropriado.
-     * @param password valor da senha
-     */
-    public void enterPassword(String password) {
-        driver.findElement(passwordField).sendKeys(password);
-    }
-
-    /**
-     * Clica no botão de login para submeter o formulário.
-     */
-    public void clickLoginButton() {
-        driver.findElement(loginButton).click();
-    }
-    public void clickokButton() {
-        driver.findElement(okButton).click();
     }
 }
